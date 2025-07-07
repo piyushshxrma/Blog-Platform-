@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>{% block title %}My Blog{% endblock %}</title>
+</head>
+<body>
+
+<h1><a href="{% url 'home' %}">My Blog</a></h1>
+<hr>
+
+{% if user.is_authenticated %}
+    <p>
+        <a href="{% url 'post_create' %}">Create Post</a> |
+        Hello, {{ user.username }} |
+        <a href="{% url 'logout' %}">Logout</a>
+    </p>
+{% else %}
+    <p>
+        <a href="{% url 'login' %}">Login</a> |
+        <a href="{% url 'register' %}">Register</a>
+    </p>
+{% endif %}
+
+<hr>
+
+{% for message in messages %}
+    <p><strong>{{ message }}</strong></p>
+{% endfor %}
+
+{% block content %}{% endblock %}
+
+<hr>
+<small>© 2025 My Blog</small>
+</body>
+</html>

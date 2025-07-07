@@ -1,0 +1,33 @@
+{% extends 'blog/base.html' %}
+
+{% block title %}Home - My Blog{% endblock %}
+
+{% block content %}
+<h2>Recent Posts</h2>
+
+<form method="get">
+    <input type="text" name="q" value="{{ query }}" placeholder="Search posts...">
+    <input type="submit" value="Search">
+</form>
+
+{% for post in posts %}
+    <hr>
+    <h3><a href="{% url 'post_detail' post.pk %}">{{ post.title }}</a></h3>
+    <p><strong>By:</strong> {{ post.author.username }} | <strong>Published:</strong> {{ post.created_at|date:"M d, Y" }}</p>
+    <p>{{ post.content|truncatechars:100 }}</p>
+{% empty %}
+    <p>No posts found.</p>
+{% endfor %}
+
+<p>
+{% if posts.has_previous %}
+    <a href="?page={{ posts.previous_page_number }}{% if query %}&q={{ query }}{% endif %}">Previous</a>
+{% endif %}
+
+Page {{ posts.number }}
+
+{% if posts.has_next %}
+    <a href="?page={{ posts.next_page_number }}{% if query %}&q={{ query }}{% endif %}">Next</a>
+{% endif %}
+</p>
+{% endblock %}
